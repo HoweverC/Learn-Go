@@ -1,3 +1,3 @@
 # Learn-Go
 
-##19-PackageΪ�ı�
+##19-Package为文本
