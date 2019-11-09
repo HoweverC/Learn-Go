@@ -3,8 +3,8 @@ package main
 import "fmt"
 
 func main() {
-	//常量 程序运行时不可以被改变
-	//声明使用const
+	//常量 在程序运行时不可以被改变
+	//声明使用const关键字
 	const a int = 10
 	fmt.Println("a =", a)
 
