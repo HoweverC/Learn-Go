@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"net"
-	"strings"
 )
 
 func HandleConn(conn net.Conn){
@@ -15,14 +14,21 @@ func HandleConn(conn net.Conn){
 	fmt.Println("连接成功")
 
 	//读取数据
-	buf:=make([]byte,2048)
-	n,err:=conn.Read(buf)
-	if err!=nil{
-		fmt.Println("error = ",err)
-		return
+	buf:=make([]byte,1024)
+	for{
+		n,err:=conn.Read(buf)
+		if err!=nil{
+			fmt.Println("error = ",err)
+			return
+		}
+		str:=string(buf[:n])
+		fmt.Println("buf = ",str,",ADDR =",addr)
+		if"exit" == str{
+			fmt.Println("Exit")
+			return
+		}
+		conn.Write([]byte(string(buf[:n])))
 	}
-	fmt.Println("buf = ",strings.Trim(string(buf),""),",ADDR =",addr)
-	conn.Write([]byte(string(buf[:n])))
 }
 
 func main() {
@@ -40,7 +46,6 @@ func main() {
 			fmt.Println("error = ",err)
 			return
 		}
-
 		//处理用户请求,新建一个协程
 		go HandleConn(conn)
 	}
